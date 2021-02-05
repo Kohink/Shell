@@ -1,5 +1,5 @@
 all:
-	gcc -std=c -o shell *.c
+	gcc -std=gnu99 -o shell *.c 
 
 clean:
-	rm -f shell *.o core.* *.gch
+	rm -f $(OBJS) $(OUT)
