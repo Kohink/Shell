@@ -29,14 +29,29 @@ int main()
 		 */
 
 		char *input = get_input();
-		printf("whole input: %s\n", input);
+		//printf("whole input: %s\n", input);
 
 		tokenlist *tokens = get_tokens(input);
 		for (int i = 0; i < tokens->size; i++) 
 		{
 			if (strcmp(tokens->items[0], "echo") == 0 && i > 0)
 			{
-				printf("%s ", tokens->items[i]);
+				if(strcmp(tokens->items[i], "$USER") == 0)
+				{
+					printf("%s ", user);
+				}
+				else if(strcmp(tokens->items[i], "$MACHINE") == 0)
+				{
+					printf("%s ", machine);
+				}
+				else if(strcmp(tokens->items[i], "$PWD") == 0)
+				{
+					printf("%s ", pwd);
+				}
+				else
+				{
+					printf("%s ", tokens->items[i]);
+				}
 			}
 			//printf("token %d: (%s)\n", i, tokens->items[i]);
 		}
