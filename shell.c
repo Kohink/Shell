@@ -13,10 +13,11 @@ tokenlist *get_tokens(char *input);
 tokenlist *new_tokenlist(void);
 void add_token(tokenlist *tokens, char *item);
 void free_tokens(tokenlist *tokens);
+//void execute_command(const char *command);
 
 int main()
 {
-	while (1) {
+	while(1){
 		printf("> ");
 
 		/* input contains the whole command
@@ -27,16 +28,50 @@ int main()
 		printf("whole input: %s\n", input);
 
 		tokenlist *tokens = get_tokens(input);
-		for (int i = 0; i < tokens->size; i++) {
-			printf("token %d: (%s)\n", i, tokens->items[i]);
+		for (int i = 0; i < tokens->size; i++) 
+		{
+			if (strcmp(tokens->items[0], "echo") == 0 && i > 0)
+			{
+				printf("%s ", tokens->items[i]);
+			}
+			//printf("token %d: (%s)\n", i, tokens->items[i]);
 		}
+		printf("\n");
+		//execute_command(tokens->items[1]);
 
 		free(input);
 		free_tokens(tokens);
-	}
+	};
 
 	return 0;
 }
+
+// Part 10 Implementation 
+/*
+void execute_command(const char *command)
+{
+	if (strcmp(command, "echo") == 0)
+	{
+
+	}
+	else if (strcmp(command, "exit") == 0)
+	{
+
+	}
+	else if (strcmp(command, "jobs") == 0)
+	{
+
+	}
+	else if (strcmp(command, "cd") == 0)
+	{
+
+	}
+	else
+	{
+		printf("\nNot a valid command\n");
+	}
+
+}*/
 
 tokenlist *new_tokenlist(void)
 {
