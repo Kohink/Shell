@@ -17,8 +17,12 @@ void free_tokens(tokenlist *tokens);
 
 int main()
 {
-	while(1){
-		printf("> ");
+	while(1) {
+		// Part 3: Prompt
+		char *user = getenv("USER");
+		char *machine = getenv("MACHINE");
+		char *pwd = getenv("PWD");
+		printf("%s@%s: %s > ", user, machine, pwd);
 
 		/* input contains the whole command
 		 * tokens contains substrings from input split by spaces
