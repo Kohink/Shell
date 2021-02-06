@@ -15,6 +15,7 @@ tokenlist *new_tokenlist(void);
 void add_token(tokenlist *tokens, char *item);
 void free_tokens(tokenlist *tokens);
 char *expand_dollar_sign(char *var);
+void findPath(char *path);
 
 int main()
 {
@@ -80,15 +81,9 @@ int main()
 			}
 			else if (strcmp(tokens->items[0], "ls") == 0)
 			{
-					
+					findPath(path);
 			}
-			else
-			{
-				if(i > 1)
-				{
-					printf("\nNot a valid command\n");
-				}
-			}
+			
 		}
 		printf("\n");
 
@@ -189,4 +184,29 @@ void free_tokens(tokenlist *tokens)
 		free(tokens->items[i]);
 
 	free(tokens);
+}
+
+void findPath(char *path)
+{
+    int i = 0;
+    char *pathy = strtok (path, ":");
+    char *array[1000];
+	char *arraydos[1000];
+	
+
+    while (pathy != NULL)
+    {
+        array[i++] = pathy;
+        pathy = strtok (NULL, ":");
+    }
+
+    for (int j = 0; j < i; j++)
+	{
+		//char *temp = array[j];
+		//arraydos[j] = strcat(temp,"/ls");
+		// array[j] = strcat(array[j], "/ls");
+		//array[j].append("/ls");
+        printf("%s\n", array[j]);
+	}
+
 }
