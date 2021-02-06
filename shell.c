@@ -24,6 +24,7 @@ int main()
 		char *machine = getenv("MACHINE");
 		char *pwd = getenv("PWD");
 		char *home = getenv("HOME");
+		char *path = getenv("PATH");
 
 		printf("%s@%s: %s > ", user, machine, pwd);
 
@@ -39,6 +40,7 @@ int main()
 		{
 			if (strcmp(tokens->items[0], "echo") == 0 && i > 0)
 			{
+				// Retrieving environmental variables
 				if(strcmp(tokens->items[i], "$USER") == 0)
 				{
 					printf("%s ", user);
@@ -51,6 +53,10 @@ int main()
 				{
 					printf("%s ", pwd);
 				}
+				else if(strcmp(tokens->items[i], "~") == 0) // needs to check if path exists before printing 
+				{
+					printf("%s ", home);
+				}
 				else
 				{
 					printf("%s ", tokens->items[i]);
@@ -58,11 +64,13 @@ int main()
 			}
 			else if (strcmp(tokens->items[0], "cd") == 0)
 			{
+				// Checks to see if cd has one argument or less
 				if(tokens->items[2]!= NULL)
 				{
 					printf("\ncd only takes one argument");
 					break;
 				}
+				// cd into home directory
 				else if(tokens->items[1] == NULL || strcmp(tokens->items[1], "~") == 0)
 				{
 					chdir(home);
@@ -70,10 +78,21 @@ int main()
 					break;
 				}
 			}
-
+			else if (strcmp(tokens->items[0], "jobs") == 0)
+			{
+					
+			}
+			else if (strcmp(tokens->items[0], "exit") == 0)
+			{
+				exit(0);
+			}
 			else if (strcmp(tokens->items[0], "ls") == 0)
 			{
 					
+			}
+			else
+			{
+				printf("\nNot a valid command\n");
 			}
 			//printf("token %d: (%s)\n", i, tokens->items[i]);
 		}
@@ -86,29 +105,6 @@ int main()
 
 	return 0;
 }
-
-// Part 10 Implementation 
-/*
-void execute_command(const char *command)
-{
-	if (strcmp(command, "exit") == 0)
-	{
-
-	}
-	else if (strcmp(command, "jobs") == 0)
-	{
-
-	}
-	else if (strcmp(command, "cd") == 0)
-	{
-		2/5
-	}
-	else
-	{
-		printf("\nNot a valid command\n");
-	}
-
-}*/
 
 tokenlist *new_tokenlist(void)
 {
