@@ -14,7 +14,7 @@ tokenlist *get_tokens(char *input);
 tokenlist *new_tokenlist(void);
 void add_token(tokenlist *tokens, char *item);
 void free_tokens(tokenlist *tokens);
-//void execute_command(const char *command);
+char *expand_dollar_sign(char *token);
 
 int main()
 {
@@ -31,29 +31,21 @@ int main()
 		/* input contains the whole command
 		 * tokens contains substrings from input split by spaces
 		 */
-
 		char *input = get_input();
-		//printf("whole input: %s\n", input);
 
 		tokenlist *tokens = get_tokens(input);
 		for (int i = 0; i < tokens->size; i++) 
 		{
 			if (strcmp(tokens->items[0], "echo") == 0 && i > 0)
 			{
-				// Retrieving environmental variables
-				if(strcmp(tokens->items[i], "$USER") == 0)
+				// Part 2: Retrieving environmental variables
+				if(strstr(tokens->items[i], "$") != NULL)
 				{
-					printf("%s ", user);
+					printf("%s ", expand_dollar_sign(tokens->items[i]));
+					
 				}
-				else if(strcmp(tokens->items[i], "$MACHINE") == 0)
-				{
-					printf("%s ", machine);
-				}
-				else if(strcmp(tokens->items[i], "$PWD") == 0)
-				{
-					printf("%s ", pwd);
-				}
-				else if(strcmp(tokens->items[i], "~") == 0) // needs to check if path exists before printing 
+				// needs to check if path exists before printing 
+				else if(strcmp(tokens->items[i], "~") == 0) 
 				{
 					printf("%s ", home);
 				}
@@ -92,12 +84,13 @@ int main()
 			}
 			else
 			{
-				printf("\nNot a valid command\n");
+				if(i > 1)
+				{
+					printf("\nNot a valid command\n");
+				}
 			}
-			//printf("token %d: (%s)\n", i, tokens->items[i]);
 		}
 		printf("\n");
-		//execute_command(tokens->items[1]);
 
 		free(input);
 		free_tokens(tokens);
@@ -105,6 +98,24 @@ int main()
 
 	return 0;
 }
+
+char *expand_dollar_sign(char *var)
+{
+	if(var[0] == '$')
+	{
+		char *expand = getenv(&var[1]);
+		if(!expand)
+		{
+			char* dealloc = malloc(1);
+      		dealloc[0] = '\0';
+      		return dealloc;
+		}
+		else
+			return strdup(expand);
+	}
+	
+}
+
 
 tokenlist *new_tokenlist(void)
 {
