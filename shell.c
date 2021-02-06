@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 typedef struct {
 	int size;
@@ -22,6 +23,8 @@ int main()
 		char *user = getenv("USER");
 		char *machine = getenv("MACHINE");
 		char *pwd = getenv("PWD");
+		char *home = getenv("HOME");
+
 		printf("%s@%s: %s > ", user, machine, pwd);
 
 		/* input contains the whole command
@@ -53,6 +56,20 @@ int main()
 					printf("%s ", tokens->items[i]);
 				}
 			}
+			else if (strcmp(tokens->items[0], "cd") == 0)
+			{
+				if(tokens->items[2]!= NULL)
+				{
+					printf("\ncd only takes one argument");
+					break;
+				}
+				else if(tokens->items[1] == NULL || strcmp(tokens->items[1], "~") == 0)
+				{
+					chdir(home);
+					printf("youre home");
+					break;
+				}
+			}
 			//printf("token %d: (%s)\n", i, tokens->items[i]);
 		}
 		printf("\n");
@@ -69,11 +86,7 @@ int main()
 /*
 void execute_command(const char *command)
 {
-	if (strcmp(command, "echo") == 0)
-	{
-
-	}
-	else if (strcmp(command, "exit") == 0)
+	if (strcmp(command, "exit") == 0)
 	{
 
 	}
@@ -83,7 +96,7 @@ void execute_command(const char *command)
 	}
 	else if (strcmp(command, "cd") == 0)
 	{
-
+		2/5
 	}
 	else
 	{
