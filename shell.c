@@ -70,6 +70,11 @@ int main()
 					break;
 				}
 			}
+
+			else if (strcmp(tokens->items[0], "ls") == 0)
+			{
+					
+			}
 			//printf("token %d: (%s)\n", i, tokens->items[i]);
 		}
 		printf("\n");
