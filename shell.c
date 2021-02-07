@@ -189,24 +189,32 @@ void free_tokens(tokenlist *tokens)
 void findPath(char *path)
 {
     int i = 0;
-    char *pathy = strtok (path, ":");
+    char *pathy = strtok(path, ":");
     char *array[1000];
-	char *arraydos[1000];
-	
+	char arraydos[1000][1000];
 
     while (pathy != NULL)
     {
         array[i++] = pathy;
-        pathy = strtok (NULL, ":");
+        pathy = strtok(NULL, ":");
     }
 
-    for (int j = 0; j < i; j++)
+	for(int j = 0; j < i; j++)
 	{
-		//char *temp = array[j];
-		//arraydos[j] = strcat(temp,"/ls");
-		// array[j] = strcat(array[j], "/ls");
-		//array[j].append("/ls");
-        printf("%s\n", array[j]);
-	}
 
+		for (int t = 0; t <= strlen(array[j]); t++)
+		{
+			if (t == strlen(array[j]))
+			{
+				arraydos[j][t] = '/';
+				arraydos[j][t + 1] = 'l';
+				arraydos[j][t + 2] = 's';
+			}
+			else
+				arraydos[j][t] = array[j][t];
+		}
+
+		// PRINTS ARRAY FOR TESTING.
+		printf("%s\n", arraydos[j]);
+	}
 }
