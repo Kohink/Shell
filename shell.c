@@ -64,24 +64,34 @@ int main()
 					break;
 				}
 				// cd into home directory
-				else if(tokens->items[1] == NULL || strcmp(tokens->items[1], "~") == 0)
+				else if(tokens->items[1] == NULL || strcmp(tokens->items[1], "~") == 0 || strcmp(tokens->items[1], "$HOME") == 0 )
 				{
 					chdir(home);
-					printf("youre home");
 					break;
+				}
+				else // actual action of cd
+				{
+					//chdir(tokens->items[1])
 				}
 			}
 			else if (strcmp(tokens->items[0], "jobs") == 0)
 			{
-					
+				// Job number + CMD PID + CMD command line
 			}
 			else if (strcmp(tokens->items[0], "exit") == 0)
 			{
+				printf("Shell has been running for: %d seconds\n");
+				printf("The longest running command took %d seconds to execute\n");
 				exit(0);
 			}
 			else if (strcmp(tokens->items[0], "ls") == 0)
 			{
 					findPath(path);
+			}
+			// Standalone tilde expansion
+			else if (strcmp(tokens->items[0], "~") == 0)
+			{
+					printf("%s ", home);
 			}
 			
 		}
@@ -99,6 +109,7 @@ char *expand_dollar_sign(char *var)
 	if(var[0] == '$')
 	{
 		char *expand = getenv(&var[1]);
+		// Returns empty environmental variable if it does not exist
 		if(!expand)
 		{
 			char* dealloc = malloc(1);
