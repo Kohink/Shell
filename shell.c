@@ -224,8 +224,28 @@ void findPath(char *path)
 			else
 				arraydos[j][t] = array[j][t];
 		}
-
 		// PRINTS ARRAY FOR TESTING.
-		printf("%s\n", arraydos[j]);
+		//printf("%s\n", arraydos[j]);
+
 	}
+
+		int status;
+		char *args[2];
+
+		for(int i = 0; i <= strlen(arraydos); i++)
+		{
+	
+		args[0] = arraydos[i];        // first arg is the full path to the executable
+		args[1] = NULL;             // list of args must be NULL terminated
+
+		if ( fork() == 0 )
+			execv(args[0], args ); // child: call execv with the path and the args
+		
+		else
+			wait( &status );
+		}
+
+
+		
+
 }
