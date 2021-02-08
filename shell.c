@@ -16,6 +16,7 @@ void add_token(tokenlist *tokens, char *item);
 void free_tokens(tokenlist *tokens);
 char *expand_dollar_sign(char *var);
 void findPath(char *path);
+void pathSearch(char *path, char *args[100]);
 
 int main()
 {
@@ -92,6 +93,17 @@ int main()
 			else if (strcmp(tokens->items[0], "~") == 0)
 			{
 					printf("%s ", home);
+			}
+
+			else
+			{
+
+				for(int i = 0; i<tokens->size; i++)
+				{
+					char *hello[tokens->size];
+					hello[i] = tokens->items[i];
+					pathSearch(path,hello);
+				}
 			}
 			
 		}
@@ -193,7 +205,6 @@ void free_tokens(tokenlist *tokens)
 {
 	for (int i = 0; i < tokens->size; i++)
 		free(tokens->items[i]);
-
 	free(tokens);
 }
 
@@ -243,9 +254,66 @@ void findPath(char *path)
 		
 		else
 			wait( &status );
+		}	
+
+}
+
+void pathSearch(char *path, char *args[100])
+{
+
+	int i = 0;
+    char *pathy = strtok(path, ":");
+    char *array[1000];
+	char arraydos[1000][1000];
+
+    while (pathy != NULL)
+    {
+        array[i++] = pathy;
+        pathy = strtok(NULL, ":");
+    }
+
+	for(int j = 0; j < i; j++)
+	{
+
+		for (int t = 0; t <= strlen(array[j]); t++)
+		{
+			if (t == strlen(array[j]))
+			{
+				arraydos[j][t] = '/';
+				arraydos[j][t + 1] = 'c';
+				arraydos[j][t + 2] = 'd';
+			}
+			else
+				arraydos[j][t] = array[j][t];
+		}
+	}
+
+		int status;
+		char *argsdos[3];
+
+		for(int i = 0; i <= strlen(arraydos); i++)
+		{
+	
+			argsdos[0] = arraydos[i];        // first arg is the full path to the executable
+			argsdos[1] = args[1];             // list of args must be NULL terminated
+			argsdos[2] = NULL;
+
+		if ( fork() == 0 )
+			execv(args[0], args ); // child: call execv with the path and the args
+		
+		else
+			wait( &status );
 		}
 
 
-		
 
+
+/*
+	for(int i = 0; i<strlen(args); i++)
+	{
+		strcat(path,"/");
+		strcat(path,args[0]);
+		printf("%s\n", path);
+	}
+*/
 }
