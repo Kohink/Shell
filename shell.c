@@ -54,7 +54,7 @@ int main()
 				}
 				else
 				{
-					printf("%s \n", tokens->items[i]);
+					printf("%s ", tokens->items[i]);
 				}
 			}
 			else if (strcmp(tokens->items[0], "cd") == 0)
@@ -102,7 +102,6 @@ int main()
 			{
 				printf("%s ", home);
 			}
-
 			else
 			{
 
@@ -115,7 +114,10 @@ int main()
 			}
 			
 		}
-
+		if (strcmp(tokens->items[0], "echo") == 0)
+		{
+			printf("\n");
+		}
 		free(input);
 		free_tokens(tokens);
 	};
