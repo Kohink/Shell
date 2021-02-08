@@ -21,20 +21,22 @@ void pathSearch(char *path, char *args[100]);
 
 int main()
 {
+	// Part 3: Prompt
+	char *user = getenv("USER");
+	char *machine = getenv("MACHINE");
+	char *pwd = getenv("PWD");
+	char *home = getenv("HOME");
+	char *path = getenv("PATH");
+	char *newPWD;
+
+	printf("%s@%s: %s > ", user, machine, pwd);
+	
 	while(1) {
-		// Part 3: Prompt
-		char *user = getenv("USER");
-		char *machine = getenv("MACHINE");
-		char *pwd = getenv("PWD");
-		char *home = getenv("HOME");
-		char *path = getenv("PATH");
-
-		printf("%s@%s: %s > ", user, machine, pwd);
-
 		/* input contains the whole command
 		 * tokens contains substrings from input split by spaces
 		 */
 		char *input = get_input();
+		
 
 		tokenlist *tokens = get_tokens(input);
 		for (int i = 0; i < tokens->size; i++) 
@@ -45,7 +47,6 @@ int main()
 				if(strstr(tokens->items[i], "$") != NULL)
 				{
 					printf("%s ", expand_dollar_sign(tokens->items[i]));
-					
 				}
 				// needs to check if path exists before printing 
 				else if(strcmp(tokens->items[i], "~") == 0) 
@@ -72,13 +73,16 @@ int main()
 				 else if(tokens->items[1] == NULL || strcmp(tokens->items[1], "~") == 0 || strcmp(tokens->items[1], "$HOME") == 0 )
 				 {
 				 	chdir(home);
+					newPWD = strcat(home, "");
 				 	break;
 				 }
 				else // actual action of cd
 				 {
 					char *newpath = strcat(path,"/");
+
 					newpath = strcat(path,tokens->items[1]);
 				 	chdir(tokens->items[1]);
+					// newPWD = strcat(..., "");
 				 	break;
 				 }
 			}
@@ -118,6 +122,9 @@ int main()
 		{
 			printf("\n");
 		}
+
+		printf("%s@%s: %s > ", user, machine, newPWD);
+
 		free(input);
 		free_tokens(tokens);
 	};
