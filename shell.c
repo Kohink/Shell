@@ -54,7 +54,7 @@ int main()
 				}
 				else
 				{
-					printf("%s ", tokens->items[i]);
+					printf("%s \n", tokens->items[i]);
 				}
 			}
 			else if (strcmp(tokens->items[0], "cd") == 0)
@@ -106,12 +106,12 @@ int main()
 			else
 			{
 
-				for(int i = 0; i<tokens->size; i++)
+				/*for(int i = 0; i<tokens->size; i++)
 				{
 					char *hello[tokens->size];
 					hello[i] = tokens->items[i];
 					pathSearch(path, hello);
-				}
+				}*/
 			}
 			
 		}
