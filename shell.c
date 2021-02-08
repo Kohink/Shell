@@ -98,7 +98,13 @@ int main()
 			}
 			else if (strcmp(tokens->items[0], "ls") == 0)
 			{
-				findPath(path);
+				//findPath(path);
+				char *argv[3];
+				argv[0] = tokens->items[0];
+				argv[1] = tokens->items[1];
+				argv[2] = NULL;
+
+				execvp(tokens->items[0], argv);
 				break;
 			}
 			// Standalone tilde expansion
