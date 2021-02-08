@@ -98,13 +98,8 @@ int main()
 			}
 			else if (strcmp(tokens->items[0], "ls") == 0)
 			{
-				//findPath(path);
-				char *argv[3];
-				argv[0] = tokens->items[0];
-				argv[1] = tokens->items[1];
-				argv[2] = NULL;
-
-				execvp(tokens->items[0], argv);
+				// findPath(path);
+				pathSearch(path, tokens->items);
 				break;
 			}
 			// Standalone tilde expansion
@@ -230,57 +225,6 @@ void free_tokens(tokenlist *tokens)
 	free(tokens);
 }
 
-void findPath(char *path)
-{
-    int i = 0;
-    char *pathy = strtok(path, ":");
-    char *array[1000];
-	char arraydos[1000][1000];
-
-    while (pathy != NULL)
-    {
-        array[i++] = pathy;
-        pathy = strtok(NULL, ":");
-    }
-
-	for(int j = 0; j < i; j++)
-	{
-		for (int t = 0; t <= strlen(array[j]); t++)
-		{
-			if (t == strlen(array[j]))
-			{
-				arraydos[j][t] = '/';
-				arraydos[j][t + 1] = 'l';
-				arraydos[j][t + 2] = 's';
-			}
-			else
-				arraydos[j][t] = array[j][t];
-		}
-		// PRINTS ARRAY FOR TESTING.
-		// printf("%s\n", arraydos[j]);
-
-	}
-
-	int status;
-	char *args[2];
-
-	for(int i = 0; i < sizeof(arraydos); i++)
-	{
-		args[0] = arraydos[i];      // first arg is the full path to the executable
-		args[1] = NULL;             // list of args must be NULL terminated
-		
-		if ( fork() == 0 )
-		{
-			execv(args[0], args); 	// child: call execv with the path and the args
-		}
-		else
-		{
-			wait( &status );
-			break;
-		}
-	}	
-}
-
 void pathSearch(char *path, char *args[100])
 {
 	int i = 0;
@@ -302,13 +246,19 @@ void pathSearch(char *path, char *args[100])
 			if (t == strlen(array[j]))
 			{
 				arraydos[j][t] = '/';
-				arraydos[j][t + 1] = 'c';
-				arraydos[j][t + 2] = 'd';
+
+				char *temp = strcat(args[0], "");
+
+				for (int com = 0; com < strlen(temp); com++)
+				{
+					arraydos[j][t + com + 1] = temp[com];
+					printf("%c\n", arraydos[j][t + com + 1]);
+				}
 			}
 			else
 				arraydos[j][t] = array[j][t];
 		}
-		printf("%s\n", arraydos[j]);
+		// printf("%s\n", arraydos[j]);
 	}
 
 	int status;
