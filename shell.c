@@ -16,13 +16,14 @@ tokenlist *new_tokenlist(void);
 void add_token(tokenlist *tokens, char *item);
 void free_tokens(tokenlist *tokens);
 char *expand_dollar_sign(char *var);
-void findPath(char *path);
+
 void pathSearch(char *path, char *args[100]);
 
 int main()
 {
 	// Part 3: Prompt
 	char *path = getenv("PATH");
+	char tempPath[10000];
 	char *user = getenv("USER");
 	char *machine = getenv("MACHINE");
 	char *pwd = getenv("PWD");
@@ -79,7 +80,7 @@ int main()
 				 {
 					char *newpath = strcat(path,"/");
 
-					newpath = strcat(path,tokens->items[1]);
+					newpath = strcat(path, tokens->items[1]);
 				 	chdir(tokens->items[1]);
 					// newPWD = strcat(..., "");
 				 	break;
@@ -108,6 +109,7 @@ int main()
 			}
 			else
 			{
+
 				pathSearch(path, tokens->items);
 				break;
 			}
@@ -223,11 +225,8 @@ void pathSearch(char *path, char *args[100])
 {
 	int i = 0;
     char *pathy = strtok(path, ":");
-    char *array[1000];
+    char *array[1000] = { "" };
 	char arraydos[1000][1000];
-
-	// if (strlen(array) >= 1)
-	// 	printf("%s\n", arraydos[1]);
 
     while (pathy != NULL)
     {
@@ -266,24 +265,12 @@ void pathSearch(char *path, char *args[100])
 		if ( fork() == 0 )
 		{
 			// printf("%s\n", argsdos[0]);
-			execv(argsdos[0], argsdos); // child: call execv with the path and the args
+			execv(argsdos[0], args); // child: call execv with the path and the args
 		}
 		else
 		{
 			wait( &status );
-			// free(args);
-			// free(pathy);
 			break;
 		}
 	}
-
-
-/*
-	for(int i = 0; i<strlen(args); i++)
-	{
-		strcat(path,"/");
-		strcat(path,args[0]);
-		printf("%s\n", path);
-	}
-*/
 }
