@@ -61,24 +61,26 @@ int main()
 			{
 				// Checks to see if cd has one argument or less
 
-				pathSearch(path, tokens->items);
+				//pathSearch(path, tokens->items);
 
-				// if(tokens->items[2]!= NULL)
-				// {
-				// 	printf("\ncd only takes one argument");
-				// 	break;
-				// }
-				// // cd into home directory
-				// else if(tokens->items[1] == NULL || strcmp(tokens->items[1], "~") == 0 || strcmp(tokens->items[1], "$HOME") == 0 )
-				// {
-				// 	pathSearch();
-				// 	break;
-				// }
-				// else // actual action of cd
-				// {
-				// 	// chdir(tokens->items[1]);
-				// 	// break;
-				// }
+				 if(tokens->items[2]!= NULL)
+				 {
+				 	printf("\ncd only takes one argument");
+				 	break;
+				 }
+				 // cd into home directory
+				 else if(tokens->items[1] == NULL || strcmp(tokens->items[1], "~") == 0 || strcmp(tokens->items[1], "$HOME") == 0 )
+				 {
+				 	chdir(home);
+				 	break;
+				 }
+				else // actual action of cd
+				 {
+					char *newpath = strcat(path,"/");
+					newpath = strcat(path,tokens->items[1]);
+				 	chdir(tokens->items[1]);
+				 	break;
+				 }
 			}
 			else if (strcmp(tokens->items[0], "jobs") == 0)
 			{
