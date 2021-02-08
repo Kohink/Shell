@@ -22,11 +22,11 @@ void pathSearch(char *path, char *args[100]);
 int main()
 {
 	// Part 3: Prompt
+	char *path = getenv("PATH");
 	char *user = getenv("USER");
 	char *machine = getenv("MACHINE");
 	char *pwd = getenv("PWD");
 	char *home = getenv("HOME");
-	char *path = getenv("PATH");
 	char *newPWD = strcat(pwd, "");
 
 	printf("%s@%s: %s > ", user, machine, pwd);
@@ -36,7 +36,6 @@ int main()
 		 * tokens contains substrings from input split by spaces
 		 */
 		char *input = get_input();
-		
 
 		tokenlist *tokens = get_tokens(input);
 		for (int i = 0; i < tokens->size; i++) 
@@ -96,12 +95,12 @@ int main()
 				printf("The longest running command took %d seconds to execute\n");
 				exit(0);
 			}
-			else if (strcmp(tokens->items[0], "ls") == 0)
-			{
-				// findPath(path);
-				pathSearch(path, tokens->items);
-				break;
-			}
+			// else if (strcmp(tokens->items[0], "ls") == 0)
+			// {
+			// 	// findPath(path);
+			// 	pathSearch(path, tokens->items);
+			// 	break;
+			// }
 			// Standalone tilde expansion
 			else if (strcmp(tokens->items[0], "~") == 0)
 			{
@@ -109,13 +108,8 @@ int main()
 			}
 			else
 			{
-
-				/*for(int i = 0; i<tokens->size; i++)
-				{
-					char *hello[tokens->size];
-					hello[i] = tokens->items[i];
-					pathSearch(path, hello);
-				}*/
+				pathSearch(path, tokens->items);
+				break;
 			}
 			
 		}
@@ -232,6 +226,9 @@ void pathSearch(char *path, char *args[100])
     char *array[1000];
 	char arraydos[1000][1000];
 
+	// if (strlen(array) >= 1)
+	// 	printf("%s\n", arraydos[1]);
+
     while (pathy != NULL)
     {
         array[i++] = pathy;
@@ -240,8 +237,7 @@ void pathSearch(char *path, char *args[100])
 
 	for(int j = 0; j < i; j++)
 	{
-
-		for (int t = 0; t <= sizeof(array[j]); t++)
+		for (int t = 0; t <= strlen(array[j]); t++)
 		{
 			if (t == strlen(array[j]))
 			{
@@ -263,7 +259,6 @@ void pathSearch(char *path, char *args[100])
 
 	for(int i = 0; i < sizeof(arraydos); i++)
 	{
-
 		argsdos[0] = arraydos[i];        // first arg is the full path to the executable
 		argsdos[1] = args[1];             // list of args must be NULL terminated
 		argsdos[2] = NULL;
@@ -271,11 +266,13 @@ void pathSearch(char *path, char *args[100])
 		if ( fork() == 0 )
 		{
 			// printf("%s\n", argsdos[0]);
-			execv(argsdos[0], args); // child: call execv with the path and the args
+			execv(argsdos[0], argsdos); // child: call execv with the path and the args
 		}
 		else
 		{
 			wait( &status );
+			// free(args);
+			// free(pathy);
 			break;
 		}
 	}
