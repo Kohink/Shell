@@ -58,6 +58,9 @@ int main()
 			}
 			else if (strcmp(tokens->items[0], "cd") == 0)
 			{
+
+				pathSearch(path, tokens->items);
+				/*
 				// Checks to see if cd has one argument or less
 				if(tokens->items[2]!= NULL)
 				{
@@ -74,6 +77,7 @@ int main()
 				{
 					//chdir(tokens->items[1])
 				}
+				*/
 			}
 			else if (strcmp(tokens->items[0], "jobs") == 0)
 			{
@@ -302,7 +306,7 @@ void pathSearch(char *path, char *args[100])
 
 		if ( fork() == 0 )
 		{
-			execv(args[0], args); // child: call execv with the path and the args
+			execv(argsdos[0], args); // child: call execv with the path and the args
 		}
 		else
 		{
