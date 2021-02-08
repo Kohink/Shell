@@ -87,12 +87,13 @@ int main()
 			}
 			else if (strcmp(tokens->items[0], "ls") == 0)
 			{
-					findPath(path);
+				findPath(path);
+				break;
 			}
 			// Standalone tilde expansion
 			else if (strcmp(tokens->items[0], "~") == 0)
 			{
-					printf("%s ", home);
+				printf("%s ", home);
 			}
 
 			else
@@ -223,7 +224,6 @@ void findPath(char *path)
 
 	for(int j = 0; j < i; j++)
 	{
-
 		for (int t = 0; t <= strlen(array[j]); t++)
 		{
 			if (t == strlen(array[j]))
@@ -236,26 +236,28 @@ void findPath(char *path)
 				arraydos[j][t] = array[j][t];
 		}
 		// PRINTS ARRAY FOR TESTING.
-		//printf("%s\n", arraydos[j]);
+		// printf("%s\n", arraydos[j]);
 
 	}
 
-		int status;
-		char *args[2];
+	int status;
+	char *args[2];
 
-		for(int i = 0; i <= strlen(arraydos); i++)
-		{
-	
-		args[0] = arraydos[i];        // first arg is the full path to the executable
+	for(int i = 0; i < strlen(arraydos); i++)
+	{
+		args[0] = arraydos[i];      // first arg is the full path to the executable
 		args[1] = NULL;             // list of args must be NULL terminated
-
-		if ( fork() == 0 )
-			execv(args[0], args ); // child: call execv with the path and the args
 		
+		if ( fork() == 0 )
+		{
+			execv(args[0], args); 	// child: call execv with the path and the args
+		}
 		else
+		{
 			wait( &status );
-		}	
-
+			break;
+		}
+	}	
 }
 
 void pathSearch(char *path, char *args[100])
@@ -288,22 +290,26 @@ void pathSearch(char *path, char *args[100])
 		}
 	}
 
-		int status;
-		char *argsdos[3];
+	int status;
+	char *argsdos[3];
 
-		for(int i = 0; i <= strlen(arraydos); i++)
-		{
-	
-			argsdos[0] = arraydos[i];        // first arg is the full path to the executable
-			argsdos[1] = args[1];             // list of args must be NULL terminated
-			argsdos[2] = NULL;
+	for(int i = 0; i <= strlen(arraydos); i++)
+	{
+
+		argsdos[0] = arraydos[i];        // first arg is the full path to the executable
+		argsdos[1] = args[1];             // list of args must be NULL terminated
+		argsdos[2] = NULL;
 
 		if ( fork() == 0 )
-			execv(args[0], args ); // child: call execv with the path and the args
-		
-		else
-			wait( &status );
+		{
+			execv(args[0], args); // child: call execv with the path and the args
 		}
+		else
+		{
+			wait( &status );
+			break;
+		}
+	}
 
 
 
