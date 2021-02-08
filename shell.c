@@ -58,26 +58,26 @@ int main()
 			}
 			else if (strcmp(tokens->items[0], "cd") == 0)
 			{
+				// Checks to see if cd has one argument or less
 
 				pathSearch(path, tokens->items);
-				/*
-				// Checks to see if cd has one argument or less
-				if(tokens->items[2]!= NULL)
-				{
-					printf("\ncd only takes one argument");
-					break;
-				}
-				// cd into home directory
-				else if(tokens->items[1] == NULL || strcmp(tokens->items[1], "~") == 0 || strcmp(tokens->items[1], "$HOME") == 0 )
-				{
-					chdir(home);
-					break;
-				}
-				else // actual action of cd
-				{
-					//chdir(tokens->items[1])
-				}
-				*/
+
+				// if(tokens->items[2]!= NULL)
+				// {
+				// 	printf("\ncd only takes one argument");
+				// 	break;
+				// }
+				// // cd into home directory
+				// else if(tokens->items[1] == NULL || strcmp(tokens->items[1], "~") == 0 || strcmp(tokens->items[1], "$HOME") == 0 )
+				// {
+				// 	pathSearch();
+				// 	break;
+				// }
+				// else // actual action of cd
+				// {
+				// 	// chdir(tokens->items[1]);
+				// 	// break;
+				// }
 			}
 			else if (strcmp(tokens->items[0], "jobs") == 0)
 			{
@@ -107,12 +107,11 @@ int main()
 				{
 					char *hello[tokens->size];
 					hello[i] = tokens->items[i];
-					pathSearch(path,hello);
+					pathSearch(path, hello);
 				}
 			}
 			
 		}
-		printf("\n");
 
 		free(input);
 		free_tokens(tokens);
@@ -266,7 +265,6 @@ void findPath(char *path)
 
 void pathSearch(char *path, char *args[100])
 {
-
 	int i = 0;
     char *pathy = strtok(path, ":");
     char *array[1000];
@@ -292,12 +290,13 @@ void pathSearch(char *path, char *args[100])
 			else
 				arraydos[j][t] = array[j][t];
 		}
+		printf("%s\n", arraydos[j]);
 	}
 
 	int status;
 	char *argsdos[3];
 
-	for(int i = 0; i <= strlen(arraydos); i++)
+	for(int i = 0; i < strlen(arraydos); i++)
 	{
 
 		argsdos[0] = arraydos[i];        // first arg is the full path to the executable
@@ -306,6 +305,7 @@ void pathSearch(char *path, char *args[100])
 
 		if ( fork() == 0 )
 		{
+			// printf("%s\n", argsdos[0]);
 			execv(argsdos[0], args); // child: call execv with the path and the args
 		}
 		else
@@ -314,8 +314,6 @@ void pathSearch(char *path, char *args[100])
 			break;
 		}
 	}
-
-
 
 
 /*
