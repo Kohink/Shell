@@ -250,10 +250,7 @@ void pathSearch(char *path, char *args[100])
 				char *temp = strcat(args[0], "");
 
 				for (int com = 0; com < strlen(temp); com++)
-				{
 					arraydos[j][t + com + 1] = temp[com];
-					printf("%c\n", arraydos[j][t + com + 1]);
-				}
 			}
 			else
 				arraydos[j][t] = array[j][t];
