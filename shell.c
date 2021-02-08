@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 typedef struct {
 	int size;
@@ -246,7 +247,7 @@ void findPath(char *path)
 	int status;
 	char *args[2];
 
-	for(int i = 0; i < strlen(arraydos); i++)
+	for(int i = 0; i < sizeof(arraydos); i++)
 	{
 		args[0] = arraydos[i];      // first arg is the full path to the executable
 		args[1] = NULL;             // list of args must be NULL terminated
@@ -279,7 +280,7 @@ void pathSearch(char *path, char *args[100])
 	for(int j = 0; j < i; j++)
 	{
 
-		for (int t = 0; t <= strlen(array[j]); t++)
+		for (int t = 0; t <= sizeof(array[j]); t++)
 		{
 			if (t == strlen(array[j]))
 			{
@@ -296,7 +297,7 @@ void pathSearch(char *path, char *args[100])
 	int status;
 	char *argsdos[3];
 
-	for(int i = 0; i < strlen(arraydos); i++)
+	for(int i = 0; i < sizeof(arraydos); i++)
 	{
 
 		argsdos[0] = arraydos[i];        // first arg is the full path to the executable
