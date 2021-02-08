@@ -27,7 +27,7 @@ int main()
 	char *pwd = getenv("PWD");
 	char *home = getenv("HOME");
 	char *path = getenv("PATH");
-	char *newPWD;
+	char *newPWD = strcat(pwd, "");
 
 	printf("%s@%s: %s > ", user, machine, pwd);
 	
