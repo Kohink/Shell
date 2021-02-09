@@ -16,8 +16,8 @@ tokenlist *new_tokenlist(void);
 void add_token(tokenlist *tokens, char *item);
 void free_tokens(tokenlist *tokens);
 char *expand_dollar_sign(char *var);
+
 void pathSearch(char *path, char *args[100]);
-void fileredirection(char *arguments[100]);
 
 int main()
 {
@@ -45,8 +45,6 @@ int main()
 		tokenlist *tokens = get_tokens(input);
 		for (int i = 0; i < tokens->size; i++) 
 		{
-
-			//ECHO COMMAND
 			if (strcmp(tokens->items[0], "echo") == 0 && i > 0)
 			{
 				// Part 2: Retrieving environmental variables
@@ -67,43 +65,36 @@ int main()
 					break;
 				}
 			}
-
-			//CD COMMAND
 			else if (strcmp(tokens->items[0], "cd") == 0)
 			{
 				// Checks to see if cd has one argument or less
 
-				if(tokens->items[2]!= NULL)
-				{
-					printf("\ncd only takes one argument");
+				 if(tokens->items[2]!= NULL)
+				 {
+				 	printf("\ncd only takes one argument");
 				 	break;
-				}
+				 }
 				 // cd into home directory
-				else if(tokens->items[1] == NULL || strcmp(tokens->items[1], "~") == 0 || strcmp(tokens->items[1], "$HOME") == 0 )
-				{
+				 else if(tokens->items[1] == NULL || strcmp(tokens->items[1], "~") == 0 || strcmp(tokens->items[1], "$HOME") == 0 )
+				 {
 				 	chdir(home);
 					newPWD = strcat(home, "");
 				 	break;
-				}
-				// Action of cd + changes current directory
-				else 
-				{
-					char cwd[1024];
-					chdir(tokens->items[1]);
-					getcwd(cwd, sizeof(cwd));
-					newPWD = cwd;
-					break;
-				}
-			}
+				 }
+				else // actual action of cd
+				 {
+					char *newpath = strcat(temp,"/");
 
-			//JOBS COMMAND
+					newpath = strcat(temp, tokens->items[1]);
+				 	chdir(tokens->items[1]);
+				 	break;
+				 }
+			}
 			else if (strcmp(tokens->items[0], "jobs") == 0)
 			{
 				// Job number + CMD PID + CMD command line
 				break;
 			}
-
-			//EXIT COMMAND
 			else if (strcmp(tokens->items[0], "exit") == 0)
 			{
 				printf("Shell has been running for: %d seconds\n");
@@ -111,30 +102,11 @@ int main()
 				exit(0);
 				break;
 			}
-
 			// Standalone tilde expansion
 			else if (strcmp(tokens->items[0], "~") == 0)
 			{
 				printf("%s ", home);
 				break;
-			}
-			// FILE REDIRECTION
-			else if((strcmp(tokens->items[1],"<") == 0) || (strcmp(tokens->items[1],">") == 0))
-			{
-				fileredirection(tokens->items);
-				break;
-			}
-			// PIPING.
-			else if (strcmp(tokens->items[1], "|") == 0)
-			{
-				if (strcmp(tokens->items[1], "|") == 0)
-				{
-					break;
-				}
-				else
-				{
-					break;
-				}
 			}
 			else
 			{
@@ -295,17 +267,14 @@ void pathSearch(char *path, char *args[100])
 		argsdos[2] = NULL;
 
 		if ( fork() == 0 )
+		{
+			// printf("%s\n", argsdos[0]);
 			execv(argsdos[0], args); // child: call execv with the path and the args
+		}
 		else
 		{
 			wait( &status );
 			break;
 		}
 	}
-}
-
-
-void fileredirection(char *arguments[100])
-{
-	
 }
