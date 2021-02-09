@@ -19,4 +19,4 @@ Step 2: enter "shell" to run shell.c
 
 Git commit log can be found in https://github.com/Kohink/Shell/commits/main
 
-Unfinished Portions:
+Unfinished Portions: I/O redirection, piping, background processes, exit(), jobs()
