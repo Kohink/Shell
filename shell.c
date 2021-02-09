@@ -268,8 +268,7 @@ void pathSearch(char *path, char *args[100])
 
 		if ( fork() == 0 )
 		{
-			// printf("%s\n", argsdos[0]);
-			execv(argsdos[0], args); // child: call execv with the path and the args
+			execv(argsdos[0], args); 	// child: call execv with the path and the args
 		}
 		else
 		{
