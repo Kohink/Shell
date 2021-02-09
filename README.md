@@ -9,7 +9,9 @@
 Group work was done together either in person together or through discord calls.
 
 To run the program:
+
 Step 1: enter "make", which will create the "shell" executable
+
 Step 2: enter "shell" to run shell.c
 
 
