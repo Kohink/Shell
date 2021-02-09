@@ -6,7 +6,7 @@
 
 ⚫ Gary Bowen - gjb17
 
-Group work was done together either in person together or through discord calls.
+Group work was done together either in person or through discord calls.
 
 Tar archive: Makefile, shell.c
 
