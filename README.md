@@ -17,6 +17,6 @@ Step 1: enter "make", which will create the "shell" executable
 Step 2: enter "shell" to run shell.c
 
 
-Git commit log can be found in commit_log.txt.
+Git commit log can be found in https://github.com/Kohink/Shell/commits/main
 
 Unfinished Portions:
