@@ -1,11 +1,10 @@
-# Shell
-#Op Sys Project 1
+# Shell - Op Sys Project 1
 
-Kohin Khandwalla - kk17c
+⚫ Kohin Khandwalla - kk17c
 
-Carson Walker - cdw16d
+⚫ Carson Walker - cdw16d
 
-Gary Bowen - gjb17
+⚫ Gary Bowen - gjb17
 
 Group work was done together either in person together or through discord calls.
 
