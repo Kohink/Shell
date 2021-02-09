@@ -8,7 +8,7 @@
 
 Group work was done together either in person together or through discord calls.
 
-Tar archive - Makefile, shell.c
+Tar archive: Makefile, shell.c
 
 To run the program:
 
