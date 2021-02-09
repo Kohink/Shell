@@ -118,10 +118,27 @@ int main()
 				printf("%s ", home);
 				break;
 			}
+			// FILE REDIRECTION
+			else if((strcmp(tokens->items[1],"<") == 0) || (strcmp(tokens->items[1],">") == 0))
+			{
+				fileredirection(tokens->items);
+				break;
+			}
+			// PIPING.
+			else if (strcmp(tokens->items[1], "|") == 0)
+			{
+				if (strcmp(tokens->items[1], "|") == 0)
+				{
+					break;
+				}
+				else
+				{
+					break;
+				}
+			}
 			else
 			{
 				pathSearch(temp, tokens->items);
-				// printf("W");
 				break;
 			}
 			
@@ -266,7 +283,6 @@ void pathSearch(char *path, char *args[100])
 			else
 				arraydos[j][t] = array[j][t];
 		}
-		// printf("%s\n", arraydos[j]);
 	}
 
 	int status;
@@ -279,10 +295,7 @@ void pathSearch(char *path, char *args[100])
 		argsdos[2] = NULL;
 
 		if ( fork() == 0 )
-		{
-			// printf("%s\n", argsdos[0]);
 			execv(argsdos[0], args); // child: call execv with the path and the args
-		}
 		else
 		{
 			wait( &status );
@@ -294,6 +307,5 @@ void pathSearch(char *path, char *args[100])
 
 void fileredirection(char *arguments[100])
 {
-
-
+	
 }
