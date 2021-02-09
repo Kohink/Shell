@@ -16,8 +16,8 @@ tokenlist *new_tokenlist(void);
 void add_token(tokenlist *tokens, char *item);
 void free_tokens(tokenlist *tokens);
 char *expand_dollar_sign(char *var);
-
 void pathSearch(char *path, char *args[100]);
+void fileredirection(char *arguments[100]);
 
 int main()
 {
@@ -45,6 +45,8 @@ int main()
 		tokenlist *tokens = get_tokens(input);
 		for (int i = 0; i < tokens->size; i++) 
 		{
+
+			//ECHO COMMAND
 			if (strcmp(tokens->items[0], "echo") == 0 && i > 0)
 			{
 				// Part 2: Retrieving environmental variables
@@ -65,6 +67,8 @@ int main()
 					break;
 				}
 			}
+
+			//CD COMMAND
 			else if (strcmp(tokens->items[0], "cd") == 0)
 			{
 				// Checks to see if cd has one argument or less
@@ -91,11 +95,15 @@ int main()
 					break;
 				}
 			}
+
+			//JOBS COMMAND
 			else if (strcmp(tokens->items[0], "jobs") == 0)
 			{
 				// Job number + CMD PID + CMD command line
 				break;
 			}
+
+			//EXIT COMMAND
 			else if (strcmp(tokens->items[0], "exit") == 0)
 			{
 				printf("Shell has been running for: %d seconds\n");
@@ -103,12 +111,22 @@ int main()
 				exit(0);
 				break;
 			}
+
 			// Standalone tilde expansion
 			else if (strcmp(tokens->items[0], "~") == 0)
 			{
 				printf("%s ", home);
 				break;
 			}
+
+
+			// FILE REDIRECTION
+			else if((strcmp(tokens->items[1],"<") == 0) || (strcmp(tokens->items[1],">") == 0))
+			{
+				fileredirection(tokens->items);
+				//printf("gotcha\n");
+			}
+
 			else
 			{
 				pathSearch(temp, tokens->items);
@@ -280,4 +298,27 @@ void pathSearch(char *path, char *args[100])
 			break;
 		}
 	}
+}
+
+
+void fileredirection(char *arguments[100])
+{
+	int i = 0;
+	int k = 0;
+
+	while(arguments[i] != NULL)
+	{
+		i++;
+	}
+	
+	char *argumentsdup[i];
+
+	for(int j =0; j<i; j++)
+	{
+		argumentsdup[j] = arguments[i];
+	}
+
+
+
+	
 }
