@@ -22,8 +22,7 @@ void pathSearch(char *path, char *args[100]);
 int main()
 {
 	// Part 3: Prompt
-	char *path = getenv("PATH");
-	char tempPath[10000];
+	const char *path = getenv("PATH");
 	char *user = getenv("USER");
 	char *machine = getenv("MACHINE");
 	char *pwd = getenv("PWD");
@@ -37,6 +36,11 @@ int main()
 		 * tokens contains substrings from input split by spaces
 		 */
 		char *input = get_input();
+		
+		char *temp = (char *)malloc(strlen(path) + 1);
+		strcpy(temp, path);
+
+		// printf("PATH: %s\n", temp);
 
 		tokenlist *tokens = get_tokens(input);
 		for (int i = 0; i < tokens->size; i++) 
@@ -47,22 +51,23 @@ int main()
 				if(strstr(tokens->items[i], "$") != NULL)
 				{
 					printf("%s ", expand_dollar_sign(tokens->items[i]));
+					break;
 				}
 				// needs to check if path exists before printing 
 				else if(strcmp(tokens->items[i], "~") == 0) 
 				{
 					printf("%s ", home);
+					break;
 				}
 				else
 				{
 					printf("%s ", tokens->items[i]);
+					break;
 				}
 			}
 			else if (strcmp(tokens->items[0], "cd") == 0)
 			{
 				// Checks to see if cd has one argument or less
-
-				//pathSearch(path, tokens->items);
 
 				 if(tokens->items[2]!= NULL)
 				 {
@@ -78,9 +83,9 @@ int main()
 				 }
 				else // actual action of cd
 				 {
-					char *newpath = strcat(path,"/");
+					char *newpath = strcat(temp,"/");
 
-					newpath = strcat(path, tokens->items[1]);
+					newpath = strcat(temp, tokens->items[1]);
 				 	chdir(tokens->items[1]);
 					// newPWD = strcat(..., "");
 				 	break;
@@ -89,28 +94,25 @@ int main()
 			else if (strcmp(tokens->items[0], "jobs") == 0)
 			{
 				// Job number + CMD PID + CMD command line
+				break;
 			}
 			else if (strcmp(tokens->items[0], "exit") == 0)
 			{
 				printf("Shell has been running for: %d seconds\n");
 				printf("The longest running command took %d seconds to execute\n");
 				exit(0);
+				break;
 			}
-			// else if (strcmp(tokens->items[0], "ls") == 0)
-			// {
-			// 	// findPath(path);
-			// 	pathSearch(path, tokens->items);
-			// 	break;
-			// }
 			// Standalone tilde expansion
 			else if (strcmp(tokens->items[0], "~") == 0)
 			{
 				printf("%s ", home);
+				break;
 			}
 			else
 			{
-
-				pathSearch(path, tokens->items);
+				pathSearch(temp, tokens->items);
+				// printf("W");
 				break;
 			}
 			
@@ -225,7 +227,7 @@ void pathSearch(char *path, char *args[100])
 {
 	int i = 0;
     char *pathy = strtok(path, ":");
-    char *array[1000] = { "" };
+    char *array[1000];
 	char arraydos[1000][1000];
 
     while (pathy != NULL)
@@ -241,6 +243,11 @@ void pathSearch(char *path, char *args[100])
 			if (t == strlen(array[j]))
 			{
 				arraydos[j][t] = '/';
+				arraydos[j][t + 1] = '\0';
+				arraydos[j][t + 2] = '\0';
+				arraydos[j][t + 3] = '\0';
+				arraydos[j][t + 4] = '\0';
+
 
 				char *temp = strcat(args[0], "");
 
@@ -259,7 +266,7 @@ void pathSearch(char *path, char *args[100])
 	for(int i = 0; i < sizeof(arraydos); i++)
 	{
 		argsdos[0] = arraydos[i];        // first arg is the full path to the executable
-		argsdos[1] = args[1];             // list of args must be NULL terminated
+		argsdos[1] = args[1];            // list of args must be NULL terminated
 		argsdos[2] = NULL;
 
 		if ( fork() == 0 )
