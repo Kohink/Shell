@@ -118,15 +118,6 @@ int main()
 				printf("%s ", home);
 				break;
 			}
-
-
-			// FILE REDIRECTION
-			else if((strcmp(tokens->items[1],"<") == 0) || (strcmp(tokens->items[1],">") == 0))
-			{
-				fileredirection(tokens->items);
-				//printf("gotcha\n");
-			}
-
 			else
 			{
 				pathSearch(temp, tokens->items);
@@ -303,22 +294,6 @@ void pathSearch(char *path, char *args[100])
 
 void fileredirection(char *arguments[100])
 {
-	int i = 0;
-	int k = 0;
-
-	while(arguments[i] != NULL)
-	{
-		i++;
-	}
-	
-	char *argumentsdup[i];
-
-	for(int j =0; j<i; j++)
-	{
-		argumentsdup[j] = arguments[i];
-	}
 
 
-
-	
 }
